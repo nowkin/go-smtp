@@ -250,11 +250,6 @@ func (c *Conn) handleGreet(enhanced bool, arg string) {
 // READY state -> waiting for MAIL
 func (c *Conn) handleMail(arg string) {
 	
-	c.WriteResponse(550, EnhancedCode{5, 5, 0}, "No such user here")
-	log.Println("Bounced Mail")
-	return		
-	
-	
 	if c.helo == "" {
 		c.WriteResponse(502, EnhancedCode{2, 5, 1}, "Please introduce yourself first.")
 		return
@@ -331,6 +326,9 @@ func (c *Conn) handleMail(arg string) {
 
 // MAIL state -> waiting for RCPTs followed by DATA
 func (c *Conn) handleRcpt(arg string) {
+	c.WriteResponse(550, EnhancedCode{5, 5, 0}, "No such user here")
+	log.Println("Bounced Mail")
+	return		
 	if !c.fromReceived {
 		c.WriteResponse(502, EnhancedCode{5, 5, 1}, "Missing MAIL FROM command.")
 		return
