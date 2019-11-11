@@ -250,9 +250,9 @@ func (c *Conn) handleGreet(enhanced bool, arg string) {
 // READY state -> waiting for MAIL
 func (c *Conn) handleMail(arg string) {
 	
-		c.WriteResponse(502, EnhancedCode{2, 5, 1}, "BounceTest.")
-		log.Println("Bounced Mail")
-		return		
+	c.WriteResponse(501, EnhancedCode{5, 5, 4}, "BounceTest.")
+	log.Println("Bounced Mail")
+	return		
 	
 	
 	if c.helo == "" {
