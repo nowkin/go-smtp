@@ -250,7 +250,7 @@ func (c *Conn) handleGreet(enhanced bool, arg string) {
 // READY state -> waiting for MAIL
 func (c *Conn) handleMail(arg string) {
 	
-	c.WriteResponse(501, EnhancedCode{5, 5, 4}, "BounceTest.")
+	c.WriteResponse(550, EnhancedCode{5, 5, 0}, "No such user here")
 	log.Println("Bounced Mail")
 	return		
 	
