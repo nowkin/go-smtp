@@ -13,6 +13,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"math/rand"
+	log "github.com/Sirupsen/logrus"
 )
 
 type ConnectionState struct {
@@ -46,6 +48,7 @@ func newConn(c net.Conn, s *Server) *Conn {
 }
 
 func (c *Conn) init() {
+	
 	rwc := struct {
 		io.Reader
 		io.Writer
@@ -247,8 +250,13 @@ func (c *Conn) handleGreet(enhanced bool, arg string) {
 
 // READY state -> waiting for MAIL
 func (c *Conn) handleMail(arg string) {
-	c.WriteResponse(502, EnhancedCode{2, 5, 1}, "BounceTest.")
-	return
+	rand.Seed(42)
+	if rand.Intn(5) == 3{
+		c.WriteResponse(502, EnhancedCode{2, 5, 1}, "BounceTest.")
+		log.Println("Bounced Mail")
+		return		
+	}
+	
 	if c.helo == "" {
 		c.WriteResponse(502, EnhancedCode{2, 5, 1}, "Please introduce yourself first.")
 		return
