@@ -247,6 +247,8 @@ func (c *Conn) handleGreet(enhanced bool, arg string) {
 
 // READY state -> waiting for MAIL
 func (c *Conn) handleMail(arg string) {
+	c.WriteResponse(502, EnhancedCode{2, 5, 1}, "BounceTest.")
+	return
 	if c.helo == "" {
 		c.WriteResponse(502, EnhancedCode{2, 5, 1}, "Please introduce yourself first.")
 		return
