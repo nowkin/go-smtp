@@ -13,7 +13,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-	"math/rand"
 	log "github.com/Sirupsen/logrus"
 )
 
